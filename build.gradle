@@ -1,11 +1,12 @@
 plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'com.ewerk.gradle.plugins.querydsl' version "1.0.10"	//querydsl 추가
 	id 'java'
 }
 
 group = 'reservation'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -26,7 +27,8 @@ dependencies {
  	//쿼리 인자 데이터 확인
  	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8'
 	
-
+	compile("com.querydsl:querydsl-jpa") // querydsl
+	compile("com.querydsl:querydsl-apt") // querydsl
 
 	//서버 재기동 없이 뷰페이지 적용
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -44,4 +46,37 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	exclude 'reservation/pms**'
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+	developmentOnly
+
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+def querydslSrcDir = 'src/main/generated'
+
+querydsl {
+	library = "com.querydsl:querydsl-apt"
+	jpa = true
+	querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', querydslSrcDir]
+		}
+	}
+}
+
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
 }
