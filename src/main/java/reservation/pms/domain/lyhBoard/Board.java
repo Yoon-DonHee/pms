@@ -2,9 +2,11 @@ package reservation.pms.domain.lyhBoard;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import reservation.pms.domain.BaseEntity;
 
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@Table(name = "LYH_BOARD")
 public class Board extends BaseEntity {
 
 	@Id

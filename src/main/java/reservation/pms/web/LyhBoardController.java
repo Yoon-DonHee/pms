@@ -1,108 +1,74 @@
 package reservation.pms.web;
 
-import java.util.*;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import reservation.pms.domain.lyhBoard.Board;
 import reservation.pms.dto.LyhBoardDto;
 import reservation.pms.service.LyhBoardService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@Controller
-@RequestMapping("/lyhBoard")
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping("/api")
 public class LyhBoardController {
 
-	@Autowired
-	private LyhBoardService boardService;
+    @Autowired
+    private LyhBoardService lyhBoardService;
 
-	@GetMapping("/getMockMvcTest")
-	public @ResponseBody String getMockMvcTest(@RequestParam String name, @RequestParam String id) {
-		return name+ "," + id;
-	}
+    @GetMapping("/lyhBoard")
+    public @ResponseBody List<Board> getAllBoards() {
+        return lyhBoardService.getAllBoard();
+    }
 
-	@PostMapping("/postMockMvcTest")
-	public @ResponseBody String postMockMvcTest(@RequestBody LyhBoardDto.info boardInfo) {
-		return boardInfo.getTitle() + "," +boardInfo.getContent();
-	}
+    @PostMapping("/lyhBoard")
+    public LyhBoardDto.info createBoard(
+            @RequestBody @Validated LyhBoardDto.save saveDto) throws Exception {
 
-	@GetMapping("/list/data")
-	public @ResponseBody Page<LyhBoardDto.info> datas(
-			Pageable pageable
-			, LyhBoardDto.search searchDto
-		) {
-		log.debug("/board/list/data");
-		Page<LyhBoardDto.info> pageBoardDto = boardService.findAllbyPageable(searchDto, pageable);
-		return pageBoardDto;
-	}
+    	LyhBoardDto.info infoDto = null;
 
-	@GetMapping(path = {"/form", "/form/{id}"})
-	public String form(
-			Model model
-			, @PathVariable(required = false, name = "id") Integer id
-			) throws Exception {
-		log.debug("board/form");
-		
-		LyhBoardDto.info infoDto = new LyhBoardDto.info();
-		if(! StringUtils.isEmpty(id)) {
-			infoDto = boardService.findbyId(id);
-		}
-		
-		model.addAttribute("infoDto", infoDto);
-		
-		return "board/form";
-	}
+        if(StringUtils.isEmpty(saveDto.getId())) {
+            infoDto = lyhBoardService.addBoard(saveDto);
+        } else {
+            infoDto = lyhBoardService.modifyBoard(saveDto);
+        }
 
-	@PostMapping("/submit")
-	public String submit(
-			Model model
-			, @Validated LyhBoardDto.save saveDto
-			, BindingResult bindingResult
-			) throws Exception {
-		log.debug("board/submit");
-		
-		if(bindingResult.hasErrors()) {
-			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-			StringBuffer errMsg = new StringBuffer();
-			for (FieldError fieldError : fieldErrors) {
-				errMsg.append(fieldError.getDefaultMessage() + ",");
-			}
-			throw new Exception(errMsg.toString());
-		}
-		
-		LyhBoardDto.info infoDto = null;
-		
-		if(StringUtils.isEmpty(saveDto.getId())) {
-			infoDto = boardService.addBoard(saveDto);
-		} else {
-			infoDto = boardService.modifyBoard(saveDto);
-		}
-		
-		return "redirect:/board/list";
-	}
+        return infoDto;
+    }
 
-	@GetMapping("/delete")
-	public @ResponseBody Map<String, Object> delete(
-			@RequestParam(required = true, name = "id") Integer[] ids) {
-		log.debug("/board/delete");
+    /*@GetMapping("/board/{id}")
+    public ResponseEntity<BoardDto.info> getBoardByNo(
+            @PathVariable Integer id) {
 
-		long deleteCnt = boardService.removeAllByIdIn(ids);
+        BoardDto.info infoDto = new BoardDto.info();
 
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("code", 200);
-		result.put("delCnt", deleteCnt);
+        infoDto = boardService.findbyId(id);
 
-		return result;
-	}
+        return ResponseEntity.ok(infoDto);
+    }*/
 
+    @GetMapping("/lyhBoard/{id}")
+    public ResponseEntity<LyhBoardDto.info> getBoardByNo(
+            @PathVariable Integer id, @RequestParam(required = false, name = "title") String title) {
+
+        System.out.println(id + "-" + title);
+
+        LyhBoardDto.info infoDto = new LyhBoardDto.info();
+
+        infoDto = lyhBoardService.findbyId(id);
+
+        return ResponseEntity.ok(infoDto);
+    }
 }
