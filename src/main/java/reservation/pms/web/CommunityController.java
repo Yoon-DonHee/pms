@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import reservation.pms.domain.Community;
+import reservation.pms.model.CommunityDto;
 import reservation.pms.service.CommunityService;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -31,12 +32,25 @@ public class CommunityController {
 		return communityService.getAllcommunity();
 	}
 
-	// create community
+	/*
+	 * // create community
+	 * 
+	 * @PostMapping("/community") public Community createcommunity(@RequestBody
+	 * Community community) { return communityService.createcommunity(community); }
+	 */
+	
+	/*
+	 * DTO 사용 버전
+	 * 파라미터로 엔티티를 직접 접속하지 않고 DTO를 통해 처리
+	 * builder 사용
+	 * */
 	@PostMapping("/community")
-	public Community createcommunity(@RequestBody Community community) {
-		return communityService.createcommunity(community);
+	public CommunityDto.info createcommunity(@RequestBody CommunityDto.createOrder saveDto) {
+		CommunityDto.info infoDto = communityService.createCommunity(saveDto);
+		
+		return infoDto;
 	}
-
+	
 	// get community
 	@GetMapping("/community/{no}")
 	public ResponseEntity<Community> getcommunityByNo(

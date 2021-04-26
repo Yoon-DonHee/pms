@@ -7,19 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tb_community")
-@DynamicInsert
-@DynamicUpdate
 @Getter @Setter
 public class Community {
 	@Id
@@ -27,7 +25,7 @@ public class Community {
 	private Integer no;
 	
 	@Column(name = "type")
-	private String type;
+	private Integer type;
 	
 	@Column(name = "title")
 	private String title;
@@ -49,4 +47,15 @@ public class Community {
 	
 	@Column(name = "counts")
 	private Integer counts;
+	
+	@Builder
+	public Community(Integer no, Integer type, String title, String contents, Integer memberNo, LocalDateTime createdTime) {
+		this.no = no;
+		this.type = type;
+		this.title = title;
+		this.contents = contents;
+		this.memberNo = memberNo;
+		this.createdTime = LocalDateTime.now();
+	}
+	
 }

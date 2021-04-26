@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import reservation.pms.domain.Community;
 import reservation.pms.exception.ResourceNotFoundException;
+import reservation.pms.model.CommunityDto;
 import reservation.pms.repository.CommunityRepo;
+import reservation.pms.repository.CommunityRepoImpl;
 
 @Service
 public class CommunityService {
@@ -20,22 +22,44 @@ public class CommunityService {
 	@Autowired
 	private CommunityRepo communityRepo;
 	
-	// get communitys data
+	/*
+	 * 전체글 조회
+	 * 최신글이 위로 오도록 sort
+	 **/
 	public List<Community> getAllcommunity() {
-		return communityRepo.findAll(Sort.by(Sort.Direction.DESC, "no"));
+		//return communityRepo.findAll(Sort.by(Sort.Direction.DESC, "no"));
+		return communityRepo.AllCommunity();
 	}
 
 	// create community
-	public Community createcommunity(Community community) {
-		community.setCreatedTime(LocalDateTime.now());
-		return communityRepo.save(community);
+//	public Community createcommunity(Community community) {
+//		community.setCreatedTime(LocalDateTime.now());
+//		return communityRepo.save(community);
+//		
+//	}
+	
+	//글생성 (빌더사용)
+	public CommunityDto.info createCommunity(CommunityDto.createOrder saveDto){
+		Community community = communityRepo.save(saveDto.save());
+		CommunityDto.info infoDto = new CommunityDto.info(community);
+		
+		return infoDto;
 	}
-
+	
 	// get community one by id
 	public ResponseEntity<Community> getcommunity(Integer no) {
-		Community community = communityRepo.findById(no)
-				.orElseThrow(() -> new ResourceNotFoundException("Not exist community Data by no : ["+no+"]"));
+
+		//기존 기본 CRUD 조회
+//		Community community = communityRepo.findById(no)
+//				.orElseThrow(() -> new ResourceNotFoundException("Not exist community Data by no : ["+no+"]"));
+//		return ResponseEntity.ok(community);
+
+		
+		//QueryDsl 조회
+		Community community = communityRepo.findByNo(no);
 		return ResponseEntity.ok(community);
+		
+		
 	}
 
 	// update community 
