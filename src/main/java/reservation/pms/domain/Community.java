@@ -42,20 +42,22 @@ public class Community {
 	@Column(name = "updated_time")
 	private LocalDateTime updatedTime;
 	
-	@Column(name = "likes")
+	@Column(name = "likes", columnDefinition ="integer default 0")
 	private Integer likes;
 	
-	@Column(name = "counts")
+	@Column(name = "counts", columnDefinition ="integer default 0")
 	private Integer counts;
 	
 	@Builder
-	public Community(Integer no, Integer type, String title, String contents, Integer memberNo, LocalDateTime createdTime) {
+	public Community(Integer no, Integer type, String title, String contents, Integer memberNo, LocalDateTime createdTime, Integer likes, Integer counts) {
 		this.no = no;
 		this.type = type;
 		this.title = title;
 		this.contents = contents;
 		this.memberNo = memberNo;
 		this.createdTime = LocalDateTime.now();
+		this.likes = likes;
+		this.counts = counts;
 	}
 	
 }

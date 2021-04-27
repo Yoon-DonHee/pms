@@ -63,8 +63,7 @@ public class CommunityService {
 	}
 
 	// update community 
-	public ResponseEntity<Community> updatecommunity(
-			Integer no, Community updatedcommunity) {
+	public ResponseEntity<Community> updatecommunity(Integer no, Community updatedcommunity) {
 		Community community = communityRepo.findById(no)
 				.orElseThrow(() -> new ResourceNotFoundException("Not exist community Data by no : ["+no+"]"));
 		community.setType(updatedcommunity.getType());
@@ -77,8 +76,7 @@ public class CommunityService {
 	}
 
 	// delete community
-	public ResponseEntity<Map<String, Boolean>> deletecommunity(
-			Integer no) {
+	public ResponseEntity<Map<String, Boolean>> deletecommunity(Integer no) {
 		Community community = communityRepo.findById(no)
 				.orElseThrow(() -> new ResourceNotFoundException("Not exist community Data by no : ["+no+"]"));
 		

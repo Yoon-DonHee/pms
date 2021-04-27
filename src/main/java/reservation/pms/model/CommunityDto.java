@@ -17,6 +17,8 @@ public class CommunityDto {
 		private String contents;
 		private Integer memberNo;
 		private LocalDateTime createdTime;
+		private Integer likes;
+		private Integer counts;
 		
 		public Community save() {
 			return Community.builder()
@@ -25,6 +27,8 @@ public class CommunityDto {
 					.contents(contents)
 					.memberNo(memberNo)
 					.createdTime(createdTime)
+					.likes(0)
+					.counts(0)
 					.build();
 		}
 	}
