@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +32,11 @@ public class CommunityController {
 	@GetMapping("/community")
 	public List<Community> getAllcommunitys() {
 		return communityService.getAllcommunity();
+	}
+	
+	@GetMapping("/community2")
+	public Page<Community> getAllcommunitys2(Pageable pageable) {
+		return communityService.getAllcommunity2(pageable);
 	}
 
 	/*

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +38,7 @@ public class Community {
 	@Column(name = "member_no")
 	private Integer memberNo;
 	
+	@CreatedDate
 	@Column(name = "created_time")
 	private LocalDateTime createdTime;
 	
