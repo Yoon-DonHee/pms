@@ -1,10 +1,10 @@
 package reservation.pms.model;
 
-import java.time.LocalDateTime;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import reservation.pms.domain.Community;
+
+import java.time.LocalDateTime;
 
 @Data
 public class CommunityDto {
@@ -17,6 +17,7 @@ public class CommunityDto {
 		private String contents;
 		private Integer memberNo;
 		private LocalDateTime createdTime;
+		private LocalDateTime updatedTime;
 		private Integer likes;
 		private Integer counts;
 		
@@ -26,7 +27,6 @@ public class CommunityDto {
 					.title(title)
 					.contents(contents)
 					.memberNo(memberNo)
-					.createdTime(createdTime)
 					.likes(0)
 					.counts(0)
 					.build();
@@ -55,7 +55,7 @@ public class CommunityDto {
 			memberNo = entity.getMemberNo();
 			likes = entity.getLikes();
 			counts = entity.getCounts();
-			createdTime = entity.getCreatedTime(); 
+			createdTime = entity.getCreatedTime();
 			updatedTime = entity.getUpdatedTime();
 		}
 	}

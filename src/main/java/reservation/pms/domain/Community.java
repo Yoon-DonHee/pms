@@ -1,27 +1,15 @@
 package reservation.pms.domain;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedDate;
-
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tb_community")
 @Getter @Setter
-public class Community {
+public class Community extends TimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer no;
@@ -38,13 +26,6 @@ public class Community {
 	@Column(name = "member_no")
 	private Integer memberNo;
 	
-	@CreatedDate
-	@Column(name = "created_time")
-	private LocalDateTime createdTime;
-	
-	@Column(name = "updated_time")
-	private LocalDateTime updatedTime;
-	
 	@Column(name = "likes", columnDefinition ="integer default 0")
 	private Integer likes;
 	
@@ -58,7 +39,6 @@ public class Community {
 		this.title = title;
 		this.contents = contents;
 		this.memberNo = memberNo;
-		this.createdTime = LocalDateTime.now();
 		this.likes = likes;
 		this.counts = counts;
 	}

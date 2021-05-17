@@ -1,21 +1,19 @@
 package reservation.pms.service;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import reservation.pms.domain.Community;
 import reservation.pms.exception.ResourceNotFoundException;
 import reservation.pms.model.CommunityDto;
 import reservation.pms.repository.CommunityRepo;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommunityService {
@@ -74,8 +72,7 @@ public class CommunityService {
 		community.setType(updatedcommunity.getType());
 		community.setTitle(updatedcommunity.getTitle());
 		community.setContents(updatedcommunity.getContents());
-		community.setUpdatedTime(LocalDateTime.now());
-		
+
 		Community endUpdatedcommunity = communityRepo.save(community);
 		return ResponseEntity.ok(endUpdatedcommunity);
 	}
