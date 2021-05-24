@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: info
+    org.springframework: error
+    org.hibernate.type.descriptor.sql: trace  #쿼리 인자 데이터 확인
+  
+ 

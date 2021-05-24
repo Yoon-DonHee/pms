@@ -3,11 +3,20 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      file-size-threshold: 1MB
+      location: C:/Temp
+      max-request-size: 100MB
+      enabled: true
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/pms?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
-    password: 'qwer1234!'
+    password: 'Uni1204@'
     sql-script-encoding: UTF-8
 
   jpa:
@@ -20,9 +29,14 @@ spring:
       hibernate:
         format_sql: true
 
-logging:
-  level:
-    org.springframework: error
-    org.hibernate.type.descriptor.sql: trace  #쿼리 인자 데이터 확인
-  
- 
+    org:
+      hibernate:
+        envers:
+          audit_table_suffix: _history
+          revision_field_name: rev_id
+          store_data_at_delete: true
+
+board:
+  attach-file:
+    storage : C:\\storage\\pms\\board\\attach_file
+    url: http://localhost:8081/files/dev/board/attach-file

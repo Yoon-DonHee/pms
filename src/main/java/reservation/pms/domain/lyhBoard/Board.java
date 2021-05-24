@@ -1,19 +1,19 @@
 package reservation.pms.domain.lyhBoard;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import reservation.pms.common.converter.RadioAttributeConverter;
+import reservation.pms.common.enums.CheckEnum;
+import reservation.pms.common.enums.RadioEnum;
 import reservation.pms.domain.BaseEntity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -22,11 +22,12 @@ import lombok.NoArgsConstructor;
 public class Board extends BaseEntity {
 
 	@Id
+	@Column(name = "BOARD_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Column(name = "type")
-	private Integer type;
+	private Integer type = 0;
 
 	//@Column(length = 100, nullable = false, name = "title", columnDefinition = "VARCHAR(100) COMMENT '타이틀' ", unique = true)
 	@Column(length = 100, nullable = false, name = "title")
@@ -39,20 +40,33 @@ public class Board extends BaseEntity {
 	private Integer memberNo;
 
 	@Column(name = "likes")
-	private Integer likes;
+	private Integer likes = 0;
 
 	@Column(name = "counts")
-	private Integer counts;
+	private Integer counts = 0;
+
+	@Enumerated(EnumType.STRING)
+	@Column(length = 1)
+	private CheckEnum checkCol1;
+
+	@Convert(converter = RadioAttributeConverter.class)
+	@Column(length = 1)
+	private RadioEnum radioCol1;
+
+	@OneToMany(mappedBy = "board")
+	private List<AttachFile> attachFile = new ArrayList<AttachFile>();
 
 	@Builder
 	public Board(
-			Integer id, Integer type, String title, String content, Integer memberNo
+			Long id, Integer type, String title, String content, Integer memberNo, CheckEnum checkCol1, RadioEnum radioCol1
 		) {
 		this.id = id;
 		this.type = type;
 		this.title = title;
 		this.content = content;
 		this.memberNo = memberNo;
+		this.checkCol1 = checkCol1;
+		this.radioCol1 = radioCol1;
 	}
 
 	public void update(
@@ -60,10 +74,22 @@ public class Board extends BaseEntity {
 			, String title
 			, String content
 			, Integer memberNo
+			, CheckEnum checkCol1
+			, RadioEnum radioCol1
 			) {
 		this.type = type;
 		this.title = title;
 		this.content = content;
 		this.memberNo = memberNo;
+		this.checkCol1 = checkCol1;
+		this.radioCol1 = radioCol1;
 	}
+
+	public void increaseCounts(
+
+	) {
+		if(this.counts == null) this.counts = 1;
+		else this.counts += 1;
+	}
+
 }

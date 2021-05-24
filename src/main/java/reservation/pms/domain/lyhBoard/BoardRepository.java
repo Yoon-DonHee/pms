@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Integer>, BoardRepositoryCustom {
+public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom {
 
 //    리턴타입 {접두어}{도입부}By{프로퍼티 표현식}(조건식)[(And|Or){프로퍼티표현식}(조건식)]{정렬조건}(매개변수)
 //    리턴 타입 : E, Optional<E>, List<E>, Page<E>, Slice<E>, Stream<E>

@@ -9,5 +9,5 @@ public interface BoardRepositoryCustom {
 
 	public Page<LyhBoardDto.info> findAllBySearch(LyhBoardDto.search searchDto, Pageable pageable);
 
-	public long deleteAllByIdIn(Integer[] ids);
+	public long deleteAllByIdIn(Long[] ids);
 }

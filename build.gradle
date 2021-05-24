@@ -1,7 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'com.ewerk.gradle.plugins.querydsl' version "1.0.10"	//querydsl 추가
+	id 'com.ewerk.gradle.plugins.querydsl' version "1.0.10"
 	id 'java'
 }
 
@@ -20,24 +20,45 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
- 	//쿼리 인자 데이터 확인
- 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8'
-	
-	compile("com.querydsl:querydsl-jpa") // querydsl
-	compile("com.querydsl:querydsl-apt") // querydsl
+	//spring boot
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.4.6'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.4'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.4.4'
+
+	//lombok
+	implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.18'
+
+	//querydsl
+	implementation group: 'com.querydsl', name: 'querydsl-jpa', version: '4.4.0'
+	implementation group: 'com.querydsl', name: 'querydsl-apt', version: '4.4.0'
+
+	//쿼리 인자 데이터 확인
+	implementation group: 'com.github.gavlyukovskiy', name: 'p6spy-spring-boot-starter', version: '1.5.8'
+
+	//파일 유틸
+	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+
+	//swagger
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
+	implementation group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
+
+	//spring data envers 로 데이터 변경 로깅
+	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.4.29.Final'
+	implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.4.29.Final'
+	implementation group: 'org.hibernate', name: 'hibernate-envers', version: '5.4.29.Final'
 
 	//서버 재기동 없이 뷰페이지 적용
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'mysql:mysql-connector-java'
+	developmentOnly group: 'org.springframework.boot', name:'spring-boot-devtools', version: '2.4.4'
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.18'
+	runtimeOnly group: 'mysql', name:'mysql-connector-java', version: '8.0.23'
 
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	
+	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.18'
+
+	testImplementation group: 'org.springframework.boot', name:'spring-boot-starter-test', version: '2.4.4'
+	testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.18'
+
 	//JUnit4 추가
 	testImplementation("org.junit.vintage:junit-vintage-engine") {
 		exclude group: "org.hamcrest", module: "hamcrest-core"
@@ -52,7 +73,6 @@ test {
 configurations {
 	querydsl.extendsFrom compileClasspath
 	developmentOnly
-
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
