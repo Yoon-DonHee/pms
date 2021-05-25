@@ -1,20 +1,26 @@
 package reservation.pms.repository;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-
 import com.querydsl.jpa.JPQLQuery;
-
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.stereotype.Repository;
 import reservation.pms.domain.Community;
 import reservation.pms.domain.QCommunity;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Repository
+@Transactional
 public class CommunityRepoImpl extends QuerydslRepositorySupport implements CommunityRepoCustom{
 
 	public CommunityRepoImpl() {
 		super(Community.class);
 	}
-	
+
+	/*
+	* QueryDSL 이용
+	* */
+
 	//Id 로 조회
 	@Override
 	public Community findByNo(Integer no) {
@@ -25,6 +31,7 @@ public class CommunityRepoImpl extends QuerydslRepositorySupport implements Comm
 				
 	}
 	//전체 리스트 조회
+	@Override
 	public List<Community> AllCommunity() {
 		QCommunity community = QCommunity.community;
 		
@@ -33,5 +40,4 @@ public class CommunityRepoImpl extends QuerydslRepositorySupport implements Comm
 				
 				
 	}
-
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Community extends TimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer no;
+	private Long no;
 	
 	@Column(name = "type")
 	private Integer type;
@@ -33,7 +33,7 @@ public class Community extends TimeEntity {
 	private Integer counts;
 	
 	@Builder
-	public Community(Integer no, Integer type, String title, String contents, Integer memberNo, LocalDateTime createdTime, Integer likes, Integer counts) {
+	public Community(Long no, Integer type, String title, String contents, Integer memberNo, LocalDateTime createdTime, Integer likes, Integer counts) {
 		this.no = no;
 		this.type = type;
 		this.title = title;

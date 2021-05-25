@@ -1,12 +1,12 @@
 package reservation.pms.repository;
 
-import java.util.List;
-
 import reservation.pms.domain.Community;
+
+import java.util.List;
 
 public interface CommunityRepoCustom {
 	/*
-	 * 기본 CRUD 기능 외 필요한 내용 작성
+	 * QueryDSL 사용관련 기본 CRUD 기능 외 필요한 내용 작성
 	 * */
 	
 	
@@ -15,5 +15,4 @@ public interface CommunityRepoCustom {
 	
 	//전체 리스트 조회
 	public List<Community> AllCommunity();
-	
 }
