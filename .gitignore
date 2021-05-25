@@ -37,3 +37,8 @@ out/
 
 ### VS Code ###
 .vscode/
+src/main/generated/reservation/pms/domain/QTimeEntity.java
+src/main/generated/reservation/pms/domain/lyhBoard/QAttachFile.java
+src/main/generated/reservation/pms/domain/QCommunity.java
+src/main/generated/reservation/pms/domain/lyhBoard/QBoard.java
+src/main/resources/application.yml
