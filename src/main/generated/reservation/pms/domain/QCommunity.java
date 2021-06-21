@@ -19,23 +19,27 @@ public class QCommunity extends EntityPathBase<Community> {
 
     public static final QCommunity community = new QCommunity("community");
 
+    public final QTimeEntity _super = new QTimeEntity(this);
+
     public final StringPath contents = createString("contents");
 
     public final NumberPath<Integer> counts = createNumber("counts", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> createdTime = createDateTime("createdTime", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdTime = _super.createdTime;
+
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final NumberPath<Integer> likes = createNumber("likes", Integer.class);
 
     public final NumberPath<Integer> memberNo = createNumber("memberNo", Integer.class);
 
-    public final NumberPath<Integer> no = createNumber("no", Integer.class);
-
     public final StringPath title = createString("title");
 
     public final NumberPath<Integer> type = createNumber("type", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> updatedTime = createDateTime("updatedTime", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedTime = _super.updatedTime;
 
     public QCommunity(String variable) {
         super(Community.class, forVariable(variable));

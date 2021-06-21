@@ -1,6 +1,8 @@
 package reservation.pms.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reservation.pms.domain.Community;
@@ -23,11 +25,18 @@ public class CommunityController {
 	}*/
 
 	// 전체글 조회 (페이징)
-	@GetMapping("")
+/*	@GetMapping("")
 	public ResponseEntity<Map> getAllcommunitys2(@RequestParam(value = "p_num", required=false) Integer p_num) {
 		if (p_num == null || p_num <= 0) p_num = 1;
 
 		return communityService.getPagingCommunity(p_num);
+	}*/
+	// 전체글 조회 (pageable 이용)
+	@GetMapping("")
+	public Page<CommunityDto.info> getAllCommunity(Pageable pageable, CommunityDto.search searchDto){
+
+		Page<CommunityDto.info> pageCommunityDto = communityService.findAllByPageable(searchDto , pageable);
+			return  pageCommunityDto;
 	}
 
 	/*
@@ -44,32 +53,32 @@ public class CommunityController {
 	}
 	
 	// 글 조회
-	@GetMapping("/{no}")
-	public ResponseEntity<Community> getcommunityByNo(
-			@PathVariable Integer no) {
+	@GetMapping("/{id}")
+	public ResponseEntity<CommunityDto.info> getcommunityById(
+			@PathVariable Long id) {
 		
-		return communityService.getcommunity(no);
+		return communityService.getcommunity(id);
 	}
 
 	// 글 수정
-	@PutMapping("/{no}")
-	public ResponseEntity<Community> updatecommunityByNo(
-			@PathVariable Integer no, @RequestBody Community community){
+	@PutMapping("/{id}")
+	public ResponseEntity<Community> updatecommunityById(
+			@PathVariable Long id, @RequestBody Community community){
 		
-		return communityService.updatecommunity(no, community);
+		return communityService.updatecommunity(id, community);
 	}
 
 	/*// delete community
-	@DeleteMapping("/community/{no}")
-	public ResponseEntity<Map<String, Boolean>> deletecommunityByNo(@PathVariable Integer no) {
+	@DeleteMapping("/community/{id}")
+	public ResponseEntity<Map<String, Boolean>> deletecommunityById(@PathVariable Integer id) {
 		
-		return communityService.deletecommunity(no);
+		return communityService.deletecommunity(id);
 	}*/
 	
 	//글 삭제
-	@PostMapping("/{no}")
-	public ResponseEntity<Map<String, Boolean>> deletecommunityByNo(@PathVariable Integer no) {
+	@PostMapping("/{id}")
+	public ResponseEntity<Map<String, Boolean>> deletecommunityById(@PathVariable Long id) {
 		
-		return communityService.deletecommunity(no);
+		return communityService.deletecommunity(id);
 	}
 }
