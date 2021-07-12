@@ -25,29 +25,29 @@ public class CommunityRepoImpl extends QuerydslRepositorySupport implements Comm
 	 * */
 	QCommunity community = QCommunity.community;
 
-
-
 	//전체 리스트 조회
 	@Override
 	public List<Community> AllCommunity(Sort id) {
+		QCommunity community = QCommunity.community;
+
 		JPQLQuery<Community> query = from(community).orderBy(community.id.desc());
 		return query.fetch();
 	}
 	@Override
 	public Page<CommunityDto.info> findAllBySearch(CommunityDto.search searchDto, Pageable pageable) {
+		QCommunity community = QCommunity.community;
 
 		JPQLQuery<CommunityDto.info> query = from(community)
    	            .select(Projections.constructor(CommunityDto.info.class,community));
 
-		query.where(titleContains(searchDto.getTitle()),
-		        typeEq(searchDto.getType())
+		query.where(titleContains(searchDto.getTitle()), typeEq(searchDto.getType())
         );
 
 		/*
 		* 페이징
-		* 시작 인덱스를 지정하는 offset,
-		* 조회할 개수를 지정하는 limit
-		* */
+		* offset : 가져올 데이터의 초기 위치값
+		* limit : 조회할 개수를 지정
+		 * */
 		int offset = pageable.getPageNumber()*pageable.getPageSize();
 		query
             .offset(offset)

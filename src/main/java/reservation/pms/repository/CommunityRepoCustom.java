@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CommunityRepoCustom {
 	/*
-	 * QueryDSL 사용관련 기본 CRUD 기능 외 필요한 내용 작성
+	 * 쿼리메소드로 표현이 불가능한 기능 작성 => 실제 로직구현은 Impl에서
 	 * */
 
 	//전체 리스트 조회

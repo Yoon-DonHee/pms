@@ -11,33 +11,34 @@ import java.util.Optional;
 
 public class CommunityDto {
 
-	// 검색 (제목,타입)
-	@Getter @Setter
-	public static class search {
-		private String title;
+	//검색 (제목,타입)
+	@Setter @Getter
+	public static class search{
 		private Integer type;
+		private String title;
 	}
-	//글생성 @Builder 이용
+
+	//글 저장 @Builder 패턴 이용
 	@Getter @Setter
-	public static class saveCommunity{
+	public static class save{
 		private Long id;
 		private Integer type;
 		private String title;
 		private String contents;
 		private Integer memberNo;
 
-		public Community save() {
-			//Entity 의 생성자를 통해 데이터 저장시 이용
+		public Community toEntity(){
+			//Entity 의  builder 생성자를 통해 데이터 저장시 이용
 			return Community.builder()
 					.type(type)
-					.title(title)
 					.contents(contents)
+					.title(title)
 					.memberNo(memberNo)
 					.build();
 		}
 	}
-	
-	//글 파라메타 받기
+
+	//entity <-> DTO 변환 객체
 	@Getter @Setter
 	@NoArgsConstructor
 	public static class info{
@@ -51,20 +52,18 @@ public class CommunityDto {
 		private String createdTime;
 		private String updatedTime;
 
-		public info(Community entity) {
-			id = entity.getId();
-			type = entity.getType();
-			title = entity.getTitle();
-			contents = entity.getContents();
-			memberNo = entity.getMemberNo();
-			likes = entity.getLikes();
-			counts = entity.getCounts();
-			createdTime = toStringDateTime(entity.getCreatedTime());
-			updatedTime = toStringDateTime(entity.getUpdatedTime());
+		public info(Community toEntity){
+			id = toEntity.getId();
+			type = toEntity.getType();
+			title = toEntity.getTitle();
+			contents = toEntity.getContents();
+			memberNo = toEntity.getMemberNo();
+			likes = toEntity.getLikes();
+			counts = toEntity.getCounts();
+			createdTime = toStringDateTime(toEntity.getCreatedTime());
+			updatedTime = toStringDateTime(toEntity.getUpdatedTime());
+
 		}
-
-
-
 		//시간표기
 		private String toStringDateTime(LocalDateTime localDateTime){
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -73,4 +72,5 @@ public class CommunityDto {
 					.orElse("");
 		}
 	}
+
 }
